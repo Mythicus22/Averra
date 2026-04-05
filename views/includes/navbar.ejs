@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top"><!--expand lg and md ka matlab hai large screen ya medium screen mein expanded rahega aur uske baad contract ho jayega, border bottom se neeche wali line dikhne lag jayegi aur sticky top use upar fix krke rakhegi-->
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><i class="fa-brands fa-airbnb"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings/new">List your Home</a>
+        </div>
+        <div class="navbar-nav ms-auto" style="margin: 0rem 2.3rem 0rem 2.3rem;">
+          <form class="d-flex" role="search" action="/listings/search" method="get">
+            <input class="form-control me-2 search-inp" type="search" placeholder="Search   Destinations" name="place"/>
+            <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+          </form>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <div class="btn-group price">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Price filter</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/listings/price/1">Under &#8377;2000</a></li>
+                <li><a class="dropdown-item" href="/listings/price/2">&#8377;2000-&#8377;4000</a></li>
+                <li><a class="dropdown-item" href="/listings/price/3">&#8377;4000-&#8377;6000</a></li>
+                <li><a class="dropdown-item" href="/listings/price/4">&#8377;6000-&#8377;8000</a></li>
+                <li><a class="dropdown-item" href="/listings/price/5">Over &#8377;8000</a></li>
+              </ul>
+          </div>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <% if(!currUser){ %>
+            <a class="nav-link" href="/signup">Sign up</a>
+            <a class="nav-link" href="/login">Log in</a>
+          <% } %>
+          <% if(currUser){ %>
+            <a class="nav-link" href="/logout">Logout</a>
+          <% } %>
+          </div>
+      </div>
+    </div>
+  </nav>

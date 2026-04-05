@@ -1,0 +1,69 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Edit your Hotel details</h2>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
+                <div class="invalid-feedback">Please provide a valid title.</div>
+                <div class="valid-feedback">looks good</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+                <div class="invalid-feedback">Please provide a valid description.</div>
+                <div class="valid-feedback">looks good</div>
+            </div>
+            <div class="mb-3">
+                Original Listing image<br>
+                <img src="<%= listing.image.url %>", style="height: 30vh; width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image link</label>
+                <input type="file" name="listing[image]" class="form-control">
+                <div class="valid-feedback">looks good</div>
+                <div class="invalid-feedback">Please provide a valid image link.</div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" name="listing[price]" value="<%= listing.price %>" class="form-control" required>
+                    <div class="invalid-feedback">Please provide a valid price.</div>
+                <div class="valid-feedback">looks good</div>
+                </div>
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" name="listing[country]" value="<%= listing.country %>" class="form-control" required>
+                    <div class="invalid-feedback">Please provide a valid country.</div>
+                    <div class="valid-feedback">looks good</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="listing[location]" value="<%= listing.location %>" class="form-control" required>
+                <div class="invalid-feedback">Please provide a valid country.</div>
+                    <div class="valid-feedback">looks good</div>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select name="listing[category]" class="form-select" required>
+                    <option value="<%=listing.category %>" selected><%=listing.category %></option>
+                    <option value="culture">Culture</option>
+                    <option value="hostels">Hostels</option>
+                    <option value="mountain">Mountains</option>
+                    <option value="beaches">Beaches</option>
+                    <option value="camping">Camping</option>
+                    <option value="castles">Castles</option>
+                    <option value="farmstays">Farmstays</option>
+                    <option value="urban">Urban</option>
+                    <option value="nature">Nature</option>
+                    <option value="apartment">Apartment</option>
+                </select>
+                <div class="invalid-feedback">Please select a valid category.</div>
+                <div class="valid-feedback">looks good</div>
+            </div>
+            <button class="btn btn-dark edit-btn">Edit</button>
+        </form> 
+    </div>
+</div>

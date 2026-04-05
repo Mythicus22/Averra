@@ -1,0 +1,17 @@
+<% layout("/layouts/boilerplate") %>
+<h1 class="heading offset-4" style="font-size: 45px;">Order summary:</h1>
+<div class="card booking-summary-card shadow-md mb-4 mt-2 align-items-center" style="max-width: 500px; margin: auto;">
+    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image" style="height: 200px; object-fit: cover;">
+    <div class="card-body">
+        <h4 class="mb-2 heading" style="color: rgb(100, 64, 25);text-decoration: underline;"><%= listing.title %></h5>
+        <p class="card-text mb-1"><strong>Location:</strong> <%= listing.location %>, <%= listing.country %></p>
+        <p class="card-text mb-1"><strong>Dates of your stay:</strong> <%= startDate %> to <%= endDate %>&nbsp;(<%= numDays %>Days)</p>
+        <p class="card-text mb-1"><strong>Guest Name:</strong>&nbsp;<%= custName %></p>
+        <p class="card-text mb-1"><strong>Final amount(after 18% Gst):</strong><%= Math.round(listing.price * 1.18*numDays).toLocaleString("en-IN") %></p>
+        <p class="card-text mb-1"><strong>Note:</strong><br>You must pay this at our reception during check in <br>You will get a email on <u><%= custEmail %></u> from our side shortly for confirming your booking</p>
+    </div>
+    <form action="/confirm" method="get" class="mb-3">
+        <button class="btn btn-primary">Confirm booking</button>
+    </form>
+    
+</div>

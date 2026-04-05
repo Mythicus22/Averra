@@ -1,0 +1,187 @@
+<% layout("/layouts/boilerplate") %>
+<body id="index">
+  <div id="filters">
+    <div class="d-flex flex-nowrap align-items-center overflow-hidden" style="flex:1;" id="filterCollapse">
+      <!-- <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="trending">
+          <button type="submit">
+          <i class="fa-solid fa-fire"></i>
+          <p>Trending</p>
+        </button>
+        </form>
+      </div> -->
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="culture">
+          <button type="submit">
+            <i class="fa-solid fa-landmark"></i>
+            <p>Culture</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="hostels">
+          <button type="submit">
+            <i class="fa-solid fa-bed"></i>
+            <p>Hostels</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="mountain">
+          <button type="submit">
+            <i class="fa-solid fa-mountain-sun"></i>
+            <p>Mountains</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="beaches">
+          <button type="submit">
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <p>Beaches</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="camping"> 
+          <button type="submit">
+            <i class="fa-solid fa-campground"></i>
+            <p>Camping</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="castles">
+          <button type="submit">
+            <i class="fa-solid fa-chess-rook"></i>
+            <p>Castles</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="farmstays">
+          <button type="submit">
+            <i class="fa-solid fa-cow"></i>
+            <p>Farmstays</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="urban">
+          <button type="submit">
+            <i class="fa-solid fa-city"></i>
+            <p>Urban</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="nature">
+          <button type="submit">
+            <i class="fa-solid fa-tree"></i>
+            <p>Nature</p>
+        </button>
+        </form>
+      </div>
+      <div class="filter">
+        <form action="/listings" method="get">
+          <input type="hidden" name="category" value="apartment">
+          <button type="submit">
+            <i class="fa-solid fa-building"></i>
+            <p>Appartment</p>
+        </button>
+        </form>
+      </div>
+    </div>
+    <div class="dropdown ms-2" id="filtersDropdown" style="display:none;">
+      <button class="btn btn-outline-secondary toggle-button" type="button" data-bs-toggle="dropdown">
+        >
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" id="filtersDropdownMenu"></ul>
+    </div>
+    <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+      </div>
+    </div>
+  </div>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+        <% for(let listing of allListings){ %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <div class="card listing-card-index">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                      <h4 class="card-title"><%= listing.title %></h4>
+                      <p class="card-text"> 
+                        <span class="price-original">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+                        <span class="price-tax" style="display:none;">&#8377; <%= Math.round(listing.price * 1.18).toLocaleString("en-IN") %></span>
+                        /night
+                      </p>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
+
+    <script>
+      let taxSwitch = document.getElementById("switchCheckDefault");
+      taxSwitch.addEventListener("click",()=>{
+        const originals = document.querySelectorAll(".price-original");
+        const taxes = document.querySelectorAll(".price-tax");
+        if (taxSwitch.checked) {
+          originals.forEach(el => el.style.display = "none");
+          taxes.forEach(el => el.style.display = "inline");
+        } else {
+          originals.forEach(el => el.style.display = "inline");
+          taxes.forEach(el => el.style.display = "none");
+        }
+      });
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const filtersBar = document.getElementById("filterCollapse");
+        const filtersDropdown = document.getElementById('filtersDropdown');
+        const filtersDropdownMenu = document.getElementById('filtersDropdownMenu');
+        function updateFilters() {
+          // Move all filters back to the bar
+          const dropdownItems = filtersDropdownMenu.querySelectorAll('li');
+          dropdownItems.forEach(li => {
+            filtersBar.appendChild(li.firstChild);
+            li.remove();
+          });
+          filtersDropdown.style.display = 'none';
+          const filters = filtersBar.querySelectorAll('.filter');
+          let barRect = filtersBar.getBoundingClientRect();
+          let lastRight = barRect.left + filtersBar.clientWidth;
+          let foundOverflow = false;
+          filters.forEach((filter, idx) => {
+            const rect = filter.getBoundingClientRect();
+            if (rect.right > lastRight - 80) { // 80px for dropdown button
+              // Move to dropdown
+              const li = document.createElement('li');
+              li.appendChild(filter);
+              filtersDropdownMenu.appendChild(li);
+              foundOverflow = true;
+            }
+          });
+          if (foundOverflow) {
+            filtersDropdown.style.display = '';
+          }
+        }
+        window.addEventListener('resize', updateFilters);
+        updateFilters();
+      });
+    </script>
+</body>
+
